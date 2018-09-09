@@ -1,0 +1,531 @@
+﻿<Page x:Class="InventorySystemDesign.FileMaintenancePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      d:DesignHeight="630" d:DesignWidth="1190"
+	  Title="FileMaintenancePage"
+      Background="WhiteSmoke"
+      FontSize="14"
+      FontFamily="Consolas">
+    
+    <Grid>
+        <TabControl Margin="-2" Background="WhiteSmoke">
+            <TabItem x:Name="branchTab"  Header="Branch" Height="30" Width="297" Background="#FF8BD4F5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+
+                    <ComboBox x:Name="columnBranch" materialDesign:HintAssist.Hint="Search by" 
+                    Grid.Column="1" Grid.Row="1" Margin="30 0 0 0" Width="150" Foreground="Black" FontWeight="SemiBold">
+                        <ComboBoxItem>All</ComboBoxItem>
+                        <ComboBoxItem>Branch Code</ComboBoxItem>
+                        <ComboBoxItem>Branch Name</ComboBoxItem>
+                        <ComboBoxItem>Acronym</ComboBoxItem>
+                    </ComboBox>
+                    <TextBox  x:Name="searchBranch" Grid.Column="2" Grid.Row="1" Margin="30 0 0 0" Width="300" Height="30">
+                    </TextBox>
+                    <materialDesign:PackIcon Kind="Magnify" Grid.Column="3" Grid.Row="1" Margin="0 5 0 0" Height="25" Width="20" />
+
+                    <Button x:Name="AddBranchBtn" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="1" Width="170" Margin="400 0 0 0" Background="#FF7EBAE4">
+                        <Grid>
+                            <materialDesign:PackIcon Kind="Plus" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-5 0 0 0" Foreground="White" />
+                            <TextBlock Margin="15 0 0 0" Foreground="White">
+                                Add New Branch
+                            </TextBlock>
+                        </Grid>
+                    </Button>
+
+
+                    <DataGrid x:Name="branchList" AutoGenerateColumns="False" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False" Grid.Column="1" Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="4"  Margin="20 30 0 80" SelectionMode="Extended" CanUserAddRows="False" CanUserResizeColumns="True" CanUserResizeRows="False" CanUserReorderColumns="False" IsReadOnly="True" Background="{x:Null}" BorderBrush="LightSteelBlue" Width="900" VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center" BorderThickness=".5">
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                <Setter Property="Height" Value="40"/>
+
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+
+                                
+                                
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn TextBlock.TextAlignment="Center"  Header="Branch Code" Binding="{Binding branch_code}">
+                            </DataGridTextColumn>
+                            <DataGridTextColumn TextBlock.TextAlignment="Center"  Header="Branch Name" Binding="{Binding branch_name}"/>
+                            <DataGridTextColumn TextBlock.TextAlignment="Center" Header="Acronym" Binding="{Binding branch_acronym}"/>
+                            <DataGridTemplateColumn Header="Actions">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button x:Name="EditBranch" Height="25" Width="45" Background="#FF3D91B9" Margin="0 -3 0 0" BorderBrush="{x:Null}" Foreground="White">
+                                                <Button.Style>
+                                                    <Style TargetType="Button"  BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding editbranch}" Value="False">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                                <Button.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock FontWeight="Bold">Edit</TextBlock>
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </Button.ToolTip>
+                                                <materialDesign:PackIcon Kind="Pencil" HorizontalContentAlignment="Center" VerticalAlignment="Center" Width="35" Margin="-12 0 0 0"/>
+                                            </Button>
+                                            <Button Height="25" Width="45" Background="#FFAE3434"  Margin="10 -3 0 0" BorderBrush="{x:Null}" Foreground="White" x:Name="DeleteBranch">
+                                                <Button.Style>
+                                                    <Style TargetType="Button"  BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding deletebranch}" Value="False">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                                <Button.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock FontWeight="Bold">Delete</TextBlock>
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </Button.ToolTip>
+                                                <materialDesign:PackIcon Kind="Delete" HorizontalContentAlignment="Center" VerticalAlignment="Center" Width="37" Margin="-12 0 0 0" />
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>                      
+                    </DataGrid>
+
+
+                    <Button Grid.Column="2" Grid.Row="4" Background="#FF7EBAE4" Width="45"  Content="&lt;&lt;" Margin="180 450 0 0" HorizontalContentAlignment="Center" Foreground="White">
+                    </Button>
+
+                    <Button x:Name="prevpageBranchBtn" Grid.Column="2" Grid.Row="4" Background="#FF7EBAE4" Width="40"  Content="&lt;" Margin="280 450 0 0" Foreground="White">
+                    </Button>
+
+                    <TextBlock Grid.Column="2" Grid.Row="4" Width="auto" Margin="355 465 -120 0" x:Name="pagenoBranchTB">1 of 2</TextBlock>
+
+                    <Button Grid.Column="4" Grid.Row="4" Background="#FF7EBAE4" Width="45"  Content="&gt;&gt;" Margin="0 450 265 0" Foreground="White">
+                    </Button>
+
+                    <Button x:Name="nextpageBranchBTn" Grid.Column="4" Grid.Row="4" Background="#FF7EBAE4" Width="40"  Content="&gt;" Margin="0 450 365 0" Foreground="White">
+                    </Button>
+
+                    <TextBlock FontSize="16" FontWeight="SemiBold" Grid.Column="1" Width="100" Grid.Row="2" Margin="0 5 -150 0">Count: 10</TextBlock>
+
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="deptTab" Header="Department" Height="30" Width="297" Background="#FF8BD4F5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+
+                    <ComboBox x:Name="columnDept" materialDesign:HintAssist.Hint="Search by" 
+                    Grid.Column="1" Grid.Row="1" Margin="30 0 0 0" Width="150" Foreground="Black" FontWeight="SemiBold">
+                        <ComboBoxItem>All</ComboBoxItem>
+                        <ComboBoxItem>Department Code</ComboBoxItem>
+                        <ComboBoxItem>Department Name</ComboBoxItem>
+                    </ComboBox>
+                    <TextBox x:Name="searchDept" Grid.Column="2" Grid.Row="1" Margin="30 0 0 0" Width="300" Height="30">
+                    </TextBox>
+                    <materialDesign:PackIcon Kind="Magnify" Grid.Column="3" Grid.Row="1" Margin="0 5 0 0" Height="25" Width="20" />
+
+                    <Button x:Name="AddDepartmentBtn" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="1" Width="190" Margin="410 0 -30 0" Background="#FF7EBAE4">
+                        <Grid>
+                            <materialDesign:PackIcon Kind="Plus" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-5 0 0 0" Foreground="White" />
+                            <TextBlock Margin="15 0 0 0" Foreground="White">
+                                Add New Department
+                            </TextBlock>
+                        </Grid>
+                    </Button>
+
+                    <TextBlock FontSize="16" FontWeight="SemiBold" Grid.Column="1" Width="100" Grid.Row="2" Margin="0 5 -150 0">Count: 10</TextBlock>
+
+                    <DataGrid x:Name="deptList" AutoGenerateColumns="False" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False" Grid.Column="1" Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="4"  Margin="20 30 0 80" SelectionMode="Extended" CanUserAddRows="False" CanUserResizeColumns="True" CanUserResizeRows="False" CanUserReorderColumns="False" IsReadOnly="True" Background="{x:Null}" BorderBrush="LightSteelBlue" Width="900" VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center" BorderThickness=".5">
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                <Setter Property="Height" Value="40"/>
+
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn TextBlock.TextAlignment="Center"  Header="Department Code" Binding="{Binding dept_code}">
+                            </DataGridTextColumn>
+                            <DataGridTextColumn TextBlock.TextAlignment="Center"  Header="Department Name" Binding="{Binding dept_name}"/>
+                            <DataGridTemplateColumn Header="Actions">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button x:Name="EditDepartmentBtn" Height="25" Width="45" Background="#FF3D91B9" Margin="0 -3 0 0" BorderBrush="{x:Null}" Foreground="White">
+                                                <Button.Style>
+                                                    <Style TargetType="Button"  BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding editdept}" Value="False">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                                <Button.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock FontWeight="Bold">Edit</TextBlock>
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </Button.ToolTip>
+                                                <materialDesign:PackIcon Kind="Pencil" HorizontalContentAlignment="Center" VerticalAlignment="Center" Width="35" Margin="-12 0 0 0"/>
+                                            </Button>
+                                            <Button x:Name="DeleteDepartmentBtn" Height="25" Width="45" Background="#FFAE3434"  Margin="10 -3 0 0" BorderBrush="{x:Null}" Foreground="White">
+                                                <Button.Style>
+                                                    <Style TargetType="Button"  BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding deletedept}" Value="False">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                                <Button.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock FontWeight="Bold">Delete</TextBlock>
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </Button.ToolTip>
+                                                <materialDesign:PackIcon Kind="Delete" HorizontalContentAlignment="Center" VerticalAlignment="Center" Width="37" Margin="-12 0 0 0" />
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+                    <Button Grid.Column="2" Grid.Row="4" Background="#FF7EBAE4" Width="45"  Content="&lt;&lt;" Margin="180 450 0 0" HorizontalContentAlignment="Center" Foreground="White">
+                    </Button>
+
+                    <Button x:Name="prevpageDeptBtn" Grid.Column="2" Grid.Row="4" Background="#FF7EBAE4" Width="40"  Content="&lt;" Margin="280 450 0 0" Foreground="White">
+                    </Button>
+
+                    <TextBlock x:Name="pagenoDeptTB" Grid.Column="2" Grid.Row="4" Width="auto" Margin="355 465 -120 0">1 of 2</TextBlock>
+
+                    <Button x:Name="nextpageDeptBtn" Grid.Column="4" Grid.Row="4" Background="#FF7EBAE4" Width="46"  Content="&gt;&gt;" Margin="0 450 265 0" Foreground="White">
+                    </Button>
+
+                    <Button Grid.Column="4" Grid.Row="4" Background="#FF7EBAE4" Width="40"  Content="&gt;" Margin="0 450 365 0" Foreground="White">
+                    </Button>
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="positionTab" Header="Position" Height="30" Width="298" Background="#FF8BD4F5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+
+                    <ComboBox x:Name="columnPosition" materialDesign:HintAssist.Hint="Search by" 
+                    Grid.Column="1" Grid.Row="1" Margin="30 0 0 0" Width="150" Foreground="Black" FontWeight="SemiBold">
+                        <ComboBoxItem>All</ComboBoxItem>
+                        <ComboBoxItem>Position ID</ComboBoxItem>
+                        <ComboBoxItem>Position</ComboBoxItem>
+                    </ComboBox>
+                    <TextBox x:Name="searchPosition" Grid.Column="2" Grid.Row="1" Margin="30 0 0 0" Width="300" Height="30">
+                    </TextBox>
+                    <materialDesign:PackIcon Kind="Magnify" Grid.Column="3" Grid.Row="1" Margin="0 5 0 0" Height="25" Width="20" />
+
+                    <Button x:Name="AddDesignationBtn" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="1" Width="170" Margin="400 0 0 0" Background="#FF7EBAE4">
+                        <Grid>
+                            <materialDesign:PackIcon Kind="Plus" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-5 0 0 0" Foreground="White" />
+                            <TextBlock Margin="15 0 0 0" Foreground="White">
+                                Add New Position
+                            </TextBlock>
+                        </Grid>
+                    </Button>
+
+                    <TextBlock FontSize="16" FontWeight="SemiBold" Grid.Column="1" Width="100" Grid.Row="2" Margin="0 5 -150 0">Count: 10</TextBlock>
+
+                    <DataGrid x:Name="positionList" AutoGenerateColumns="False" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False" Grid.Column="1" Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="4"  Margin="20 30 0 80" SelectionMode="Extended" CanUserAddRows="False" CanUserResizeColumns="True" CanUserResizeRows="False" CanUserReorderColumns="False" IsReadOnly="True" Background="{x:Null}" BorderBrush="LightSteelBlue" Width="900" VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center" BorderThickness=".5">
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                <Setter Property="Height" Value="40"/>
+
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn TextBlock.TextAlignment="Center"  Header="Position ID" Binding="{Binding positionid}" FontSize="14">
+                            </DataGridTextColumn>
+                            <DataGridTextColumn TextBlock.TextAlignment="Center"  Header="Positions" Binding="{Binding position}" FontSize="14"  />
+                            <DataGridTemplateColumn Header="Actions">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button x:Name="EditDesignation" Height="25" Width="45" Background="#FF3D91B9" Margin="0 -3 0 0" BorderBrush="{x:Null}" Foreground="White">
+                                                <Button.Style>
+                                                    <Style TargetType="Button"  BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding editposition}" Value="False">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                                <Button.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock FontWeight="Bold">Edit</TextBlock>
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </Button.ToolTip>
+                                                <materialDesign:PackIcon Kind="Pencil" HorizontalContentAlignment="Center" VerticalAlignment="Center" Width="35" Margin="-12 0 0 0"/>
+                                            </Button>
+                                            <Button x:Name="DeleteDesignation" Height="25" Width="45" Background="#FFAE3434"  Margin="10 -3 0 0" BorderBrush="{x:Null}" Foreground="White">
+                                                <Button.Style>
+                                                    <Style TargetType="Button"  BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding deleteposition}" Value="False">
+                                                                <Setter Property="IsEnabled" Value="False" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                                <Button.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock FontWeight="Bold">Delete</TextBlock>
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </Button.ToolTip>
+                                                <materialDesign:PackIcon Kind="Delete" HorizontalContentAlignment="Center" VerticalAlignment="Center" Width="37" Margin="-12 0 0 0" />
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+                    <Button Grid.Column="2" Grid.Row="4" Background="#FF7EBAE4" Width="45"  Content="&lt;&lt;" Margin="180 450 0 0" HorizontalContentAlignment="Center" Foreground="White">
+                    </Button>
+
+                    <Button x:Name="prevpagePositionBtn" Grid.Column="2" Grid.Row="4" Background="#FF7EBAE4" Width="40"  Content="&lt;" Margin="280 450 0 0" Foreground="White">
+                    </Button>
+
+                    <TextBlock x:Name="pagenoPositionTB" Grid.Column="2" Grid.Row="4" Width="auto" Margin="355 465 -120 0">1 of 2</TextBlock>
+
+                    <Button x:Name="nextpagePositionBTn" Grid.Column="4" Grid.Row="4" Background="#FF7EBAE4" Width="45"  Content="&gt;&gt;" Margin="0 450 265 0" Foreground="White">
+                    </Button>
+
+                    <Button Grid.Column="4" Grid.Row="4" Background="#FF7EBAE4" Width="40"  Content="&gt;" Margin="0 450 365 0" Foreground="White">
+                    </Button>
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="stockroomTab" Header="Stock Room" Height="30" Width="298" Background="#FF8BD4F5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+
+                    <ComboBox  materialDesign:HintAssist.Hint="Search by" 
+                    Grid.Column="1" Grid.Row="1" Margin="30 0 0 0" Width="150" Foreground="Black" FontWeight="SemiBold">
+                        <ComboBoxItem>All</ComboBoxItem>
+                        <ComboBoxItem>Branch Code</ComboBoxItem>
+                        <ComboBoxItem>Branch Name</ComboBoxItem>
+                        <ComboBoxItem>Acronym</ComboBoxItem>
+                    </ComboBox>
+                    <TextBox Grid.Column="2" Grid.Row="1" Margin="30 0 0 0" Width="300" Height="30">
+                    </TextBox>
+                    <materialDesign:PackIcon Kind="Magnify" Grid.Column="3" Grid.Row="1" Margin="0 5 0 0" Height="25" Width="20" />
+
+                    <Button Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="1" Width="170" Margin="400 0 0 0" Background="#FF7EBAE4">
+                        <Grid>
+                            <materialDesign:PackIcon Kind="Plus" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-5 0 0 0" Foreground="White" />
+                            <TextBlock Margin="15 0 0 0" Foreground="White">
+                                Add New Item
+                            </TextBlock>
+                        </Grid>
+                    </Button>
+
+                    <TextBlock FontSize="16" FontWeight="SemiBold" Grid.Column="1" Width="100" Grid.Row="2" Margin="0 5 60 0">Count: 10</TextBlock>
+                    
+                    <DataGrid x:Name="listed4" AutoGenerateColumns="False" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False" Grid.Column="1" Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="4"  Margin="10 30 0 80" SelectionMode="Extended" CanUserAddRows="False" CanUserResizeColumns="True" CanUserResizeRows="False" CanUserReorderColumns="False" IsReadOnly="True" Background="{x:Null}" BorderBrush="LightSteelBlue" Width="1100" VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center" BorderThickness=".5" HorizontalScrollBarVisibility="Disabled">
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                <Setter Property="Height" Value="40"/>
+
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn TextBlock.TextAlignment="Center"  Header="Serial Number" Binding="{Binding branch_code}" FontSize="14">
+                            </DataGridTextColumn>
+                            <DataGridTextColumn TextBlock.TextAlignment="Center"  Header="Description" Binding="{Binding branch_name}" FontSize="14"  />
+                            <DataGridTextColumn TextBlock.TextAlignment="Center" Header="Model" Binding="{Binding branch_acronym}" FontSize="14"/>
+                            <DataGridTextColumn TextBlock.TextAlignment="Center" Header="Availability" Binding="{Binding branch_acronym}" FontSize="14"/>
+                            <DataGridTextColumn TextBlock.TextAlignment="Center" Header="Status" Binding="{Binding branch_acronym}" FontSize="14"/>
+                            <DataGridTextColumn TextBlock.TextAlignment="Center" Header="Delivery Date" Binding="{Binding branch_acronym}" FontSize="14"/>
+                            <DataGridTemplateColumn Header="Actions">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Height="25" Width="45" Background="#FF3D91B9" Margin="0 -3 0 0" BorderBrush="{x:Null}" Foreground="White">
+                                                <Button.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock FontWeight="Bold">Edit</TextBlock>
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </Button.ToolTip>
+                                                <materialDesign:PackIcon Kind="Pencil" HorizontalContentAlignment="Center" VerticalAlignment="Center" Width="35" Margin="-12 0 0 0"/>
+                                            </Button>
+                                            <Button Height="25" Width="45" Background="#FFAE3434"  Margin="10 -3 0 0" BorderBrush="{x:Null}" Foreground="White">
+                                                <Button.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock FontWeight="Bold">Delete</TextBlock>
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </Button.ToolTip>
+                                                <materialDesign:PackIcon Kind="Delete" HorizontalContentAlignment="Center" VerticalAlignment="Center" Width="37" Margin="-12 0 0 0" />
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+                    <Button Grid.Column="2" Grid.Row="4" Background="#FF7EBAE4" Width="45"  Content="&lt;&lt;" Margin="180 450 0 0" HorizontalContentAlignment="Center" Foreground="White">
+                    </Button>
+
+                    <Button Grid.Column="2" Grid.Row="4" Background="#FF7EBAE4" Width="40"  Content="&lt;" Margin="280 450 0 0" Foreground="White">
+                    </Button>
+
+                    <TextBlock Grid.Column="2" Grid.Row="4" Width="auto" Margin="355 465 -120 0">1 of 2</TextBlock>
+
+                    <Button Grid.Column="4" Grid.Row="4" Background="#FF7EBAE4" Width="45"  Content="&gt;&gt;" Margin="0 450 265 0" Foreground="White">
+                    </Button>
+
+                    <Button Grid.Column="4" Grid.Row="4" Background="#FF7EBAE4" Width="40"  Content="&gt;" Margin="0 450 365 0" Foreground="White">
+                    </Button>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>

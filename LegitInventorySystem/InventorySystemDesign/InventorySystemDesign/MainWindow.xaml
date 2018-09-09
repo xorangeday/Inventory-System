@@ -1,0 +1,167 @@
+﻿<Window x:Class="InventorySystemDesign.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="MainWindow" Height="720" Width="1250"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        FontFamily="Consolas"
+        FontSize="14">
+
+    <Window.Resources>
+        <Storyboard x:Key="MenuOpen">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="240"/>           
+            </DoubleAnimationUsingKeyFrames>
+
+        </Storyboard>
+        <Storyboard x:Key="MenuClose">
+            <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="240"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="60"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="OpenButtonMenu">
+            <BeginStoryboard Storyboard="{StaticResource MenuOpen}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="CloseButtonMenu">
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}"/>
+        </EventTrigger>
+    </Window.Triggers>
+    
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Height="30" Background="PowderBlue">
+    <!--
+            <Button HorizontalAlignment="Right" Width="50" BorderBrush="{x:Null}" Background="{x:Null}" Margin="0 0 50 0">
+                <Grid>
+                    <materialDesign:PackIcon Kind="WindowClose" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="20" Width="20"/>
+                </Grid>
+            </Button> 
+            
+            <Button HorizontalAlignment="Right" Width="50" BorderBrush="{x:Null}" Background="{x:Null}" Margin="0 0 0 0">
+                <Grid>
+                    <materialDesign:PackIcon Kind="WindowClose" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="20" Width="20"/>
+                </Grid>
+            </Button>
+-->
+            <ListView Grid.Row="0" Height="30" Width=" 100" HorizontalAlignment="Right"
+                      ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                <ListViewItem MouseLeftButtonUp="ListViewItem_MouseLeftButtonUp" HorizontalAlignment="Right" Width="30">
+                    <StackPanel Orientation="Vertical">
+                        <materialDesign:PackIcon Kind="WindowClose"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Center" Margin="5 -35 0 0" Width="35" Height="30">
+                    <StackPanel Orientation="Vertical" Margin="-18 27 0 0" Height="30" Width="30">
+                        <materialDesign:PackIcon Kind="WindowMinimize" Margin="17 12 0 0"/>
+                        
+                    </StackPanel>
+                </ListViewItem>
+                
+            </ListView>
+           
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold">
+                Inventory System
+            </TextBlock>
+            
+        </Grid>
+        <Frame Grid.Row="1" Height="630" Width="1190" HorizontalAlignment="Right" VerticalAlignment="Bottom" x:Name="Home" NavigationUIVisibility="Hidden"></Frame>
+        <Grid Grid.Row="1" Height="60" Width="1250" VerticalAlignment="Top" Background="#FF559CC9">
+            <Image x:Name="logo" Source="pnb-logo.png" Height="40" Margin="0 0 750 0"/>
+            <Image x:Name="logo1" Source="pnb-logo.png" Height="40" Margin="0 0 390 0" Visibility="Hidden"/>
+            <DockPanel VerticalAlignment="Center" HorizontalAlignment="Right">
+                <TextBlock Text="Eileen C. Bautista" VerticalAlignment="Center" FontSize="18"/>
+                <materialDesign:PopupBox HorizontalAlignment="Right" Margin="10" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+                    <StackPanel>
+                        <Button Content="View Profile" x:Name="ViewProfileBtn" />
+                        <Button Content="Change Password" x:Name="ChangePassBtn" />
+                        <Separator/>
+                        <Button Content="Logout" x:Name="Logout" />
+                    </StackPanel>
+                </materialDesign:PopupBox>
+            </DockPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="GridMenu" Width="60" HorizontalAlignment="Left" Background="#FF2A6B93">
+            <Grid Height="60" Background="White" VerticalAlignment="Top">
+                <Button x:Name="CloseButtonMenu" Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right"  Visibility="Collapsed" Click="CloseButtonMenu_Click">
+                    <materialDesign:PackIcon Foreground="#FF1186C9" Kind="ArrowLeft" Width="25" Height="25"/>
+                </Button>
+                <Button x:Name="OpenButtonMenu" Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Right" Click="OpenButtonMenu_Click">
+                    <materialDesign:PackIcon Foreground="#FF1186C9" Kind="Menu" Width="25" Height="25"/>
+                </Button>
+            </Grid>
+
+            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0 60 0 0" Background="{x:Null}"  BorderBrush="{x:Null}" Foreground="White" Height="630">
+                <ListViewItem Height="80" x:Name="dashBoardBtn" MouseLeftButtonUp="DashboardBT_MouseLeftButtonUp">
+                    <StackPanel Orientation="Horizontal" Background="{x:Null}">
+                        <materialDesign:PackIcon Kind="ViewDashboard" VerticalAlignment="Center" Width="25" Height="25" Margin="10 0 0 0"/>
+                        <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0" FontSize="16">
+                                Dashboard
+                        </TextBlock>
+                    </StackPanel>
+                </ListViewItem>
+
+                <ListViewItem x:Name="fileMaintenanceBtn" Height="80" MouseLeftButtonUp="FileMaintenanceBTN_MouseLeftButtonUp">
+                    <StackPanel Orientation="Horizontal" Background="{x:Null}" >
+                        <materialDesign:PackIcon Kind="FileCheck" VerticalAlignment="Center" Width="25" Height="25" Margin="10 0 0 0"/>
+                        <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0" FontSize="16">
+                                File Maintenance
+                        </TextBlock>
+                    </StackPanel>
+                </ListViewItem>
+
+                <ListViewItem x:Name="inventoryBtn" Height="80" MouseLeftButtonUp="InventoryBTN_MouseLeftButtonUp">
+                    <StackPanel Orientation="Horizontal" Background="{x:Null}">
+                        <materialDesign:PackIcon Kind="Package" VerticalAlignment="Center" Width="25" Height="25" Margin="10 0 0 0"/>
+                        <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0" FontSize="16">
+                                Inventory
+                        </TextBlock>
+                    </StackPanel>
+                </ListViewItem>
+
+                <ListViewItem x:Name="reportBtn" Height="80" MouseLeftButtonUp="ReportBTN_MouseLeftButtonUp">
+                    <StackPanel Orientation="Horizontal" Background="{x:Null}">
+                        <materialDesign:PackIcon Kind="FileDocument" VerticalAlignment="Center" Width="25" Height="25" Margin="10 0 0 0"/>
+                        <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0" FontSize="16">
+                                Reports
+                        </TextBlock>
+                    </StackPanel>
+                </ListViewItem>
+
+                <ListViewItem x:Name="accountBtn"  Height="80" MouseLeftButtonUp="AccountsBTN_MouseLeftButtonUp">
+                    <StackPanel Orientation="Horizontal" Background="{x:Null}">
+                        <materialDesign:PackIcon Kind="AccountCircle" VerticalAlignment="Center" Width="25" Height="25" Margin="10 0 0 0"/>
+                        <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0" FontSize="16">
+                                Accounts
+                        </TextBlock>
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+        </Grid>
+      
+       
+    </Grid>
+</Window>
